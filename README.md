@@ -14,5 +14,5 @@ https://www.gamry.com/support-2/software/echem-toolkit-basic-dc-and-ac/
 ![demo1](https://user-images.githubusercontent.com/50966363/177796481-0845cb86-bb3e-44d8-9c39-c82020d270a4.jpg)
 
 
-Output Reading, from an external oscilloscope
-![d17c2ebf7c0110002ff289c568eb1cf](https://user-images.githubusercontent.com/50966363/177798855-7f349cc8-51e3-4078-9710-b901fba64af1.jpg)
+Output Reading, from an external oscilloscope:\
+![image](https://user-images.githubusercontent.com/50966363/177848081-875f893b-4d66-4358-8d7f-26bdc7fc9ee3.png)
