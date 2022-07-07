@@ -70,7 +70,7 @@ def stopacq():
     print("OFF")
 
     #Plot a diagram
-    plt.title('Output Signal')
+    plt.title('Measured Signal')
     plt.xlabel('Time(s)')
     plt.ylabel('Voltage(V)')
     plt.plot(timeOutputList, voltsOutputList)
