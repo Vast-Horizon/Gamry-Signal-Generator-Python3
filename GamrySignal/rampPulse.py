@@ -11,6 +11,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
+from tkinter import *
+from tkinter import filedialog
+
 GamryCOM=client.GetModule(['{BD962F0D-A990-4823-9CF5-284D1CDD9C6D}', 1, 0])
 
 # utilities: #####################
@@ -93,7 +96,35 @@ dtaqsink = GamryDtaqEvents(dtaqcpiv)
 connection = client.GetEvents(dtaqcpiv, dtaqsink)
 
 #Read the data file
-f = open("RAMPdata.txt")
+window = Tk(className=' Gamry Potentiostat Signal Generator')
+window.geometry("400x100")
+window.minsize(400, 100)
+window.maxsize(400, 100)
+window['background']='#FFFFFF'
+def openF():
+    global path
+    path = filedialog.askopenfilename()
+    print(path)
+    window.destroy()
+    
+def loadDefault():
+    global path
+    path = 'RAMPdata.txt'
+    print(path)
+    window.destroy()
+   
+text = Label(window, bg = 'white', fg='#bfe3c4', text="-----------------------------------------------------")
+text.place(x=60,y=10)
+text = Label(window, bg = 'white', text="The data file should contain a list of voltage points")
+text.place(x=60,y=70)
+button0 = Button(text="Select Data File", bg = 'white', fg="Blue",width=28, command=openF)
+button0.pack(side=LEFT)
+button1 = Button(window, text="Load Demo File", bg = 'white', fg="red",width=28,command=loadDefault)
+button1.pack(side=RIGHT)
+window.mainloop()
+
+#f = open("RAMPdata.txt") #uncomment this to load a demo data file directly
+f = open(path)
 PointsList = f.readlines()
 numOfPoints = len(PointsList)
 PointsList = [float(i) for i in PointsList]
@@ -103,6 +134,8 @@ pstat.Open()
 
 #Create a signal object then set it to pstat
 #SampleRate is the time gap between each point in the list
+#Cycles = input("Number of Cycles: ")
+#SampleRate = input("Time gap between each output data point in second: ")
 Cycles = 3
 SampleRate=0.0001
 Sig=client.CreateObject('GamryCOM.GamrySignalArray')
@@ -132,4 +165,4 @@ client.PumpEvents(1)
 
 #Close file
 f.close()
-
+input("Press Enter to close")
