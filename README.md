@@ -17,3 +17,9 @@ https://www.gamry.com/support-2/software/echem-toolkit-basic-dc-and-ac/
 
 Output Reading, from an external oscilloscope:\
 ![image](https://user-images.githubusercontent.com/50966363/177848081-875f893b-4d66-4358-8d7f-26bdc7fc9ee3.png)
+
+---
+(8/16/2022)\
+IMPORTANT UPDATE NOTE :
+A much more capable software with a brand new user interface is under development. Stay Tuned.
+![image](https://user-images.githubusercontent.com/50966363/184974577-ea0c0098-b655-493e-be38-58d4c315b21f.png)
