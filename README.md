@@ -21,7 +21,10 @@ Output Reading, from an external oscilloscope:\
 ![image](https://user-images.githubusercontent.com/50966363/177848081-875f893b-4d66-4358-8d7f-26bdc7fc9ee3.png)
 
 ---
-(8/16/2022)\
+(8/15/2022)\
 IMPORTANT UPDATE NOTE :
 A much more capable software with a brand new user interface is under development. Stay Tuned.
 ![image](https://user-images.githubusercontent.com/50966363/184974577-ea0c0098-b655-493e-be38-58d4c315b21f.png)
+---
+(8/17/2022)\
+![image](https://user-images.githubusercontent.com/50966363/185238396-24248627-7211-44f4-b496-93199405133a.png)
