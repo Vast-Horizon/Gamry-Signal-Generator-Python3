@@ -25,6 +25,7 @@ Output Reading, from an external oscilloscope:\
 IMPORTANT UPDATE NOTE :
 A much more capable software with a brand new user interface is under development. Stay Tuned.
 ![image](https://user-images.githubusercontent.com/50966363/184974577-ea0c0098-b655-493e-be38-58d4c315b21f.png)
+
 ---
 (8/17/2022)\
 ![image](https://user-images.githubusercontent.com/50966363/185238396-24248627-7211-44f4-b496-93199405133a.png)
