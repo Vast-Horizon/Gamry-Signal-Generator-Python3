@@ -25,7 +25,8 @@ A much more capable software with a brand new user interface is under developmen
 ---
 (8/18/2022)\
 The program now has a sperate UI file. The main file is connectUI.py (Galvanostat mode), which load the ui file and link functionalities to it. Please put them under the same directory.\
-The program saved 10 columns of data from the Gamry instrument and plot Output signal(Vsig), measured voltage, current vs time to the window.
+The program saved 10 columns of raw data and plot Output signal(Vsig), measured voltage, current vs time to the window.\
+![image](https://user-images.githubusercontent.com/50966363/185494321-f042c8d9-eeef-4738-8043-bb86a30c8281.png)
 
 ---
 (8/17/2022)\
