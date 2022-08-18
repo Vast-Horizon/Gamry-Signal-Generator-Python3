@@ -10,7 +10,7 @@ Gamry Echem Toolkit, Python 3, comtypes, Qt Designer and PyQt6
 The potentiostat being used during the development is INTERFACE 5000E.
 
 use pip install comtypes in cmd to install the COM package\
-Gamry Echem Toolkit:
+Gamry Echem Toolkit Info:
 https://www.gamry.com/support-2/software/echem-toolkit-basic-dc-and-ac/
 
 ![image](https://user-images.githubusercontent.com/50966363/179066874-048def82-3ab9-4b86-bb12-220c99280118.png)
@@ -24,9 +24,10 @@ IMPORTANT UPDATE NOTE :
 A much more capable software with a brand new user interface is under development in GamrySignal_NewUIVersion folder. Stay Tuned.
 ---
 (8/18/2022)\
-The program now has a sperate UI file. The main file is connectUI.py (Galvanostat mode), which load the ui file and link functionalities to it. Please put them under the same directory.\
-For each run, the program save 10 columns of raw data and plot Output signal(Vsig), measured voltage, current vs time to the window.\
+The project now has a sperate UI file. GamrySignalMainCode.py loads the ui file and link functionalities to it. Please put them under the same directory.\
+For each run, the program save 10 columns of raw data and plot output signal(Vsig), measured voltage, current vs time to the window.\
 ![image](https://user-images.githubusercontent.com/50966363/185494321-f042c8d9-eeef-4738-8043-bb86a30c8281.png)
+Note that this GamrySignalMainCode.py is set to galvanostat mode and it reads current signal, rather than rampPulse.py which uses potentiostat mode.
 
 ---
 (8/17/2022)\
