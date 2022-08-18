@@ -23,13 +23,14 @@ Output Reading, from an external oscilloscope:\
 IMPORTANT UPDATE NOTE :
 A much more capable software with a brand new user interface is under development. Stay Tuned.
 ---
-(8/18/2022)
-The program now has a sperate UI file. The main file is connectUI.py (Galvanostat mode), which load the ui file and link functionalities to it. Please put them under the same directory.
+(8/18/2022)\
+The program now has a sperate UI file. The main file is connectUI.py (Galvanostat mode), which load the ui file and link functionalities to it. Please put them under the same directory.\
 The program saved 10 columns of data from the Gamry instrument and plot Output signal(Vsig), measured voltage, current vs time to the window.
 
 ---
 (8/17/2022)\
 ![image](https://user-images.githubusercontent.com/50966363/185238396-24248627-7211-44f4-b496-93199405133a.png)
+
 ---
 (8/15/2022)\
 IMPORTANT UPDATE NOTE :
