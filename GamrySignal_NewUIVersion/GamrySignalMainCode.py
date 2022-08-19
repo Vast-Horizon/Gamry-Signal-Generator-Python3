@@ -24,7 +24,7 @@ def gamry_error_decoder(e):
         if hresult & 0x20000000:
             return GamryCOMError('0x{0:08x}: {1}'.format(2**32+e.args[0], e.args[1]))
     return e
-
+c = 0
 class GamryDtaqEvents(object):
     def __init__(self, dtaq):
         self.dtaq = dtaq
@@ -44,7 +44,8 @@ class GamryDtaqEvents(object):
         time.sleep(1)
         global active
         active = False
-        print("DONE")
+        print("DONE ")
+
 ############################################################################
 class UI(QtWidgets.QMainWindow):
    #Load UI 
@@ -59,6 +60,7 @@ class UI(QtWidgets.QMainWindow):
         currentMonth = datetime.now().month
         currentYear = datetime.now().year
         self.dateEdit.setDateTime(QtCore.QDateTime(QtCore.QDate(currentYear, currentMonth, currentDay), QtCore.QTime(0, 0, 0)))
+        self.progressBar.setValue(0)
         #Connect buttons with functions
         self.DataFileButton_1.clicked.connect(self.openF)
         self.DataFileButton_2.clicked.connect(self.loadDefault)
@@ -96,12 +98,13 @@ class UI(QtWidgets.QMainWindow):
         if not os.path.exists(outputPath):
             os.makedirs(outputPath)
         else:
-            print("Directory already exists")
+            pass
+            #print("Directory already exists")
     
     #UNUSED
     def initIndicator(self):
         self.IndicatorLabel.setText("Please Wait for a while, or check for any error messages ")
-        self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(255,224,102);border: 1.5px solid gray;border-radius: 10px;}")   
+        self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(255,224,102);border: 1.5px solid gray;border-radius: 8px;}")   
         #self.initialize()
     
     #Set up connection with the Gamry instrument
@@ -124,7 +127,7 @@ class UI(QtWidgets.QMainWindow):
         connection = client.GetEvents(dtaqciiv, dtaqsink)
         print("\n========================================================================")
         print(devices.EnumSections()[0], " Initialization Completed")
-        self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(255,224,102);border: 1.5px solid gray;border-radius: 10px;}")  
+        self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(255,224,102);border: 1.5px solid gray;border-radius: 8px;}")  
         self.test()
 
     #To test    
@@ -164,13 +167,21 @@ class UI(QtWidgets.QMainWindow):
             print("Running\t","Should be ready in 30 second...")
         except Exception as e:
             raise gamry_error_decoder(e)
-
+        prograssList = []
+        counter = 0
         while active == True:
             client.PumpEvents(1)
             time.sleep(0.1)
+            counter+=1
+            prograssList.append(counter)
+            print(prograssList)
+            #self.progressBar.setMinimum(5)
+            self.progressBar.setValue(counter)
+ 
 
         #Turn off
-        while active == False:   
+        while active == False: 
+            self.progressBar.setValue(30)  
             print("Terminating...")
             print("Total Number of Output Data Points Detected: ", len(dtaqsink.acquired_points))
             pstat.SetCell(GamryCOM.CellOff)
@@ -178,13 +189,15 @@ class UI(QtWidgets.QMainWindow):
             pstat.Close()
             #del connection
             gc.collect()
-            self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(50,200,50);border: 1.5px solid gray;border-radius: 10px;}")
+            self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(50,200,50);border: 1.5px solid gray;border-radius: 8px;}")
             self.IndicatorLabel.setText(" ")
             try:
                 f.close()
                 break
+
             except (NameError, IOError):
                 pass
+        self.progressBar.setValue(0)
         self.clear()
         self.draw()
 
@@ -203,7 +216,6 @@ class UI(QtWidgets.QMainWindow):
             writer.writerow(titleList)
             for item in rawDataList:
                 file_handler.write("{}\n".format(item))
-
         print("Data file ",subdir," is saved")
         print("OFF")
     
