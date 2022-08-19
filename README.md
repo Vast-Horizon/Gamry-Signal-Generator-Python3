@@ -30,6 +30,10 @@ For each run, the program save 10 columns of raw data and plot output signal(Vsi
 Note that this GamrySignalMainCode.py is set to galvanostat mode and it reads current signal, rather than rampPulse.py which uses potentiostat mode.
 
 ---
+(8/19/2022)\
+![image](https://user-images.githubusercontent.com/50966363/185713859-8f794952-34f1-415e-a003-8ec2d4f99824.png)
+
+---
 (8/17/2022)\
 ![image](https://user-images.githubusercontent.com/50966363/185238396-24248627-7211-44f4-b496-93199405133a.png)
 
