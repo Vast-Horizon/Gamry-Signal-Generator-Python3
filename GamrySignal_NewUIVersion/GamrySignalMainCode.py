@@ -1,19 +1,17 @@
 from PyQt6 import QtWidgets, uic,QtCore, QtGui
 from tkinter import filedialog
 from pyqtgraph import PlotWidget
-
 import comtypes
 import comtypes.client as client
 import gc
-import numpy as np
-import matplotlib.pyplot as plt
 import time
 from datetime import datetime
 import os
 import sys
 import csv
-active = False #Flag
 
+active = False #Flag
+mode = "Gstat" 
 ############################Gamry Classes#################################
 class GamryCOMError(Exception):
     pass
@@ -66,7 +64,7 @@ class UI(QtWidgets.QMainWindow):
         self.DataFileButton_2.clicked.connect(self.loadDefault)
         self.pushButton.clicked.connect(self.draw)
         self.ClearPushButton.clicked.connect(self.clear)
-        self.TestButton.clicked.connect(self.initialize)
+        self.TestButton.clicked.connect(self.modeSwitcher)
         #Show UI
         self.show()
     #Select Signal Profile
@@ -90,7 +88,7 @@ class UI(QtWidgets.QMainWindow):
         dday = str(self.dateEdit.date().day())
         mmonth = str(self.dateEdit.date().month())
         yyyyear = str(self.dateEdit.date().year())
-        subdir = "Test"+testnum+"-"+temperature + "degrees-"+mmonth+"-"+dday+"-"+yyyyear
+        subdir = "Test"+testnum+"-"+temperature + "-"+mmonth+"-"+dday+"-"+yyyyear
         cdir = os.getcwd() #Get the current directory
         parent_dir = os.path.join(cdir,objname)
         global outputPath
@@ -99,16 +97,50 @@ class UI(QtWidgets.QMainWindow):
             os.makedirs(outputPath)
         else:
             pass
-            #print("Directory already exists")
+            
     
     #UNUSED
-    def initIndicator(self):
-        self.IndicatorLabel.setText("Please Wait for a while, or check for any error messages ")
-        self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(255,224,102);border: 1.5px solid gray;border-radius: 8px;}")   
-        #self.initialize()
-    
-    #Set up connection with the Gamry instrument
-    def initialize(self):
+    # def initIndicator(self):
+    #     self.IndicatorLabel.setText("Please Wait for a while, or check for any error messages ")
+    #     self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(255,224,102);border: 1.5px solid gray;border-radius: 8px;}")   
+    #     self.initializeGstat()
+
+    #Switch between Gstat and Pstat mode
+    def modeSwitcher(self):        
+        if self.radioButton.isChecked():
+            print("Gstat")
+            self.initializeGstat()
+        else:
+            print("Pstat")
+            global mode
+            mode = "Pstat"
+            self.initializePstat()
+
+    #Set up connection with the Gamry instrument in Potentiostat mode
+    def initializePstat(self):
+        global active
+        active=True
+        global GamryCOM,pstat,dtaqcpiv,dtaqsink,connection
+        GamryCOM=client.GetModule(['{BD962F0D-A990-4823-9CF5-284D1CDD9C6D}', 1, 0])
+        devices=client.CreateObject('GamryCOM.GamryDeviceList')
+        #Gamry Instrument object
+        pstat=client.CreateObject('GamryCOM.GamryPC6Pstat')
+        pstat.Init(devices.EnumSections()[0]) 
+        #Open
+        pstat.Open()
+        pstat.SetCtrlMode(GamryCOM.PstatMode)#Set it to Potentiostat mode
+        #Data acquisition object cpiv
+        dtaqcpiv=client.CreateObject('GamryCOM.GamryDtaqCpiv')
+        dtaqcpiv.Init(pstat)
+        dtaqsink = GamryDtaqEvents(dtaqcpiv)
+        connection = client.GetEvents(dtaqcpiv, dtaqsink)
+        print("\n========================================================================")
+        print(devices.EnumSections()[0], " Initialization Completed")
+        self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(255,224,102);border: 1.5px solid gray;border-radius: 8px;}")  
+        self.test()
+
+    #Set up connection with the Gamry instrument in Galvanostat mode
+    def initializeGstat(self):
         global active
         active=True
         global GamryCOM,pstat,dtaqciiv,dtaqsink,connection
@@ -120,7 +152,7 @@ class UI(QtWidgets.QMainWindow):
         #Open
         pstat.Open()
         pstat.SetCtrlMode(GamryCOM.GstatMode)#Set it to galvanostat mode
-        #Data acquisition object
+        #Data acquisition object ciiv
         dtaqciiv=client.CreateObject('GamryCOM.GamryDtaqCiiv')
         dtaqciiv.Init(pstat)
         dtaqsink = GamryDtaqEvents(dtaqciiv)
@@ -147,7 +179,10 @@ class UI(QtWidgets.QMainWindow):
         temprate = round(temprate,8)
         SampleRate = temprate
         Sig=client.CreateObject('GamryCOM.GamrySignalArray')
-        Sig.Init(pstat, Cycles, SampleRate, numOfPoints, PointsList, GamryCOM.GstatMode)
+        if mode == "Gstat":
+            Sig.Init(pstat, Cycles, SampleRate, numOfPoints, PointsList, GamryCOM.GstatMode)
+        elif mode == "Pstat":
+            Sig.Init(pstat, Cycles, SampleRate, numOfPoints, PointsList, GamryCOM.PstatMode)
         pstat.SetSignal(Sig)
 
         #Print out information
@@ -162,8 +197,11 @@ class UI(QtWidgets.QMainWindow):
         pstat.SetCell(GamryCOM.CellOn)
         
         #Make it to run
-        try:            
-            dtaqciiv.Run(True)
+        try:
+            if mode == "Gstat":            
+                dtaqciiv.Run(True)
+            elif mode == "Pstat":
+                dtaqcpiv.Run(True)
             print("Running\t","Should be ready in 30 second...")
         except Exception as e:
             raise gamry_error_decoder(e)
@@ -174,23 +212,23 @@ class UI(QtWidgets.QMainWindow):
             time.sleep(0.1)
             counter+=1
             prograssList.append(counter)
-            print(prograssList)
-            #self.progressBar.setMinimum(5)
-            self.progressBar.setValue(counter)
+            if self.progressBar.value() >= 30:
+                self.progressBar.setValue(27)
+            else:
+                self.progressBar.setValue(counter)
  
-
         #Turn off
         while active == False: 
             self.progressBar.setValue(30)  
+            self.clear()
+            self.draw()
             print("Terminating...")
             print("Total Number of Output Data Points Detected: ", len(dtaqsink.acquired_points))
             pstat.SetCell(GamryCOM.CellOff)
             time.sleep(1)
             pstat.Close()
-            #del connection
             gc.collect()
             self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(50,200,50);border: 1.5px solid gray;border-radius: 8px;}")
-            self.IndicatorLabel.setText(" ")
             try:
                 f.close()
                 break
@@ -198,17 +236,16 @@ class UI(QtWidgets.QMainWindow):
             except (NameError, IOError):
                 pass
         self.progressBar.setValue(0)
-        self.clear()
-        self.draw()
 
         #Save Raw Data to the directory
         self.folderDir()
         testnum = self.TestNumEdit.text()
         cellID = self.IDEdit.text()
         model = self.objNameEdit.text()
-        subdir = outputPath+"\Test"+testnum +"-Cell"+cellID+model+".csv"
+        subdir = outputPath+"\Test"+testnum +"-Object"+cellID+"-"+model+".csv"
         rawDataList = []
         titleList = ["Time(s)","Measur. V(V)","Uncompens. V","Measur. I(A)","Signal Out","Aux Input","IE Range","Overload Info","Stop","Temp"]
+        #titleList = ["Time(s)","Measur. V(V)","Uncompens. V","Measur. I(A)","Signal Out"]
         with open(subdir, 'w') as file_handler:
             for item in dtaqsink.acquired_points:
                 rawDataList.append(','.join([str(j) for j in item]))

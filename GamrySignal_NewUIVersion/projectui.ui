@@ -46,7 +46,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>440</y>
+      <y>430</y>
       <width>201</width>
       <height>41</height>
      </rect>
@@ -87,7 +87,7 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>440</y>
+      <y>430</y>
       <width>211</width>
       <height>41</height>
      </rect>
@@ -146,7 +146,7 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
      <string notr="true">QLineEdit {border: 1px solid gray;border-radius: 10px;}</string>
     </property>
     <property name="text">
-     <string/>
+     <string>STATOR</string>
     </property>
    </widget>
    <widget class="QLabel" name="objNamelabel">
@@ -172,7 +172,7 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>500</y>
+      <y>490</y>
       <width>431</width>
       <height>31</height>
      </rect>
@@ -323,14 +323,14 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
      </font>
     </property>
     <property name="text">
-     <string>Cell ID:</string>
+     <string>ID:</string>
     </property>
    </widget>
    <widget class="QPushButton" name="TestButton">
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>550</y>
+      <y>540</y>
       <width>431</width>
       <height>41</height>
      </rect>
@@ -354,10 +354,10 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
    <widget class="QLabel" name="IndicatorLabel">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>560</y>
-      <width>16</width>
-      <height>20</height>
+      <x>426</x>
+      <y>550</y>
+      <width>20</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -537,7 +537,7 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
      <string notr="true">QLineEdit {border: 1px solid gray;border-radius: 10px;}</string>
     </property>
     <property name="text">
-     <string>23</string>
+     <string>Healthy </string>
     </property>
    </widget>
    <widget class="QLineEdit" name="TestNumEdit">
@@ -604,7 +604,7 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
      </font>
     </property>
     <property name="text">
-     <string>Temperature:</string>
+     <string>Condition:</string>
     </property>
    </widget>
    <widget class="QLabel" name="DateLabel">
@@ -768,22 +768,34 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>620</y>
+      <y>600</y>
       <width>431</width>
-      <height>23</height>
+      <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
     </property>
     <property name="styleSheet">
      <string notr="true">QProgressBar{
 background-color:rgb(238, 255, 230); 
-color:rgb(255, 153, 153); 
 border: 1.5px solid gray;
-border-radius: 10px; 
+border-radius: 5px; 
+color:rgb(255, 153, 153);
 text-align:center;
+font-weight: bold
 }
 QProgressBar::chunk {
-margin: 3px;
-border-radius: 10px; 
+margin: 2px;
+border-radius :5px;
 background-color:rgb(50, 200, 50); 
 }
 </string>
@@ -795,7 +807,29 @@ background-color:rgb(50, 200, 50);
      <number>30</number>
     </property>
     <property name="value">
-     <number>0</number>
+     <number>6</number>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>380</y>
+      <width>171</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>  Galvanostat Mode</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
