@@ -31,12 +31,8 @@ Comment out item = [item[i] for i in (0,1,3,4)] in GamrySignalMainCode.py to sav
 Note that GamrySignalMainCode.py is set to galvanostat mode and it reads current signal by default. Simply uncheck the radio button to switch to potentiostat mode if you wish.
 
 ---
-(8/19/2022)\
-![image](https://user-images.githubusercontent.com/50966363/185713859-8f794952-34f1-415e-a003-8ec2d4f99824.png)
-
----
-(8/17/2022)\
-![image](https://user-images.githubusercontent.com/50966363/185238396-24248627-7211-44f4-b496-93199405133a.png)
+(8/23/2022)\
+![image](https://user-images.githubusercontent.com/50966363/186265248-946b74ee-87a1-41cd-885b-2396381826f1.png)
 
 ---
 (8/15/2022)\
