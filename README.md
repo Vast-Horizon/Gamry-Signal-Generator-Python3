@@ -32,7 +32,7 @@ Note that GamrySignalMainCode.py is set to galvanostat mode and it reads current
 
 ---
 (8/23/2022)\
-![image](https://user-images.githubusercontent.com/50966363/186265248-946b74ee-87a1-41cd-885b-2396381826f1.png)
+![image](https://user-images.githubusercontent.com/50966363/186283273-632c2548-34d3-42fc-8464-cc805148e8d2.png)
 
 ---
 (8/15/2022)\
