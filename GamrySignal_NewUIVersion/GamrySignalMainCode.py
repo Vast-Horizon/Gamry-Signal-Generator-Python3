@@ -11,6 +11,7 @@ import sys
 import csv
 
 active = False #Flag
+global mode
 mode = "Gstat" 
 ############################Gamry Classes#################################
 class GamryCOMError(Exception):
@@ -102,9 +103,10 @@ class UI(QtWidgets.QMainWindow):
     #Switch between Gstat and Pstat mode
     def modeSwitcher(self):        
         if self.radioButton.isChecked():
+            global mode
+            mode = "Gstat"
             self.initializeGstat()
         else:
-            global mode
             mode = "Pstat"
             self.initializePstat()
 
