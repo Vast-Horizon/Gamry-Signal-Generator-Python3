@@ -98,20 +98,12 @@ class UI(QtWidgets.QMainWindow):
         else:
             pass
             
-    
-    #UNUSED
-    # def initIndicator(self):
-    #     self.IndicatorLabel.setText("Please Wait for a while, or check for any error messages ")
-    #     self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(255,224,102);border: 1.5px solid gray;border-radius: 8px;}")   
-    #     self.initializeGstat()
 
     #Switch between Gstat and Pstat mode
     def modeSwitcher(self):        
         if self.radioButton.isChecked():
-            print("Gstat")
             self.initializeGstat()
         else:
-            print("Pstat")
             global mode
             mode = "Pstat"
             self.initializePstat()
@@ -135,7 +127,7 @@ class UI(QtWidgets.QMainWindow):
         dtaqsink = GamryDtaqEvents(dtaqcpiv)
         connection = client.GetEvents(dtaqcpiv, dtaqsink)
         print("\n========================================================================")
-        print(devices.EnumSections()[0], " Initialization Completed")
+        print(devices.EnumSections()[0], " Initialization Completed In Potentiostat Mode")
         self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(255,224,102);border: 1.5px solid gray;border-radius: 8px;}")  
         self.test()
 
@@ -158,7 +150,7 @@ class UI(QtWidgets.QMainWindow):
         dtaqsink = GamryDtaqEvents(dtaqciiv)
         connection = client.GetEvents(dtaqciiv, dtaqsink)
         print("\n========================================================================")
-        print(devices.EnumSections()[0], " Initialization Completed")
+        print(devices.EnumSections()[0], " Initialization Completed In Galvanostat Mode")
         self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(255,224,102);border: 1.5px solid gray;border-radius: 8px;}")  
         self.test()
 
