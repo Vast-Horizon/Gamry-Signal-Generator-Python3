@@ -25,9 +25,10 @@ A much more capable software with a brand new user interface is under developmen
 ---
 (8/18/2022)\
 The project now has a separated UI file. GamrySignalMainCode.py loads the ui file and link functionalities to it. Please put them under the same directory.\
-For each run, the program save 10 columns of raw data and plot output signal(Vsig), measured voltage, current vs time to the window.\
+For each run, the program save 4 columns of raw data and plot measured input signal(Vsig), measured voltage, current vs time to on the window.\
+Comment out item = [item[i] for i in (0,1,3,4)] in GamrySignalMainCode.py to save all 10 columns/elements as shown below.\
 ![image](https://user-images.githubusercontent.com/50966363/185494321-f042c8d9-eeef-4738-8043-bb86a30c8281.png)\
-Note that this GamrySignalMainCode.py is set to galvanostat mode and it reads current signal, rather than rampPulse.py which uses potentiostat mode.
+Note that this GamrySignalMainCode.py is set to galvanostat mode and it reads current signal by default, uncheck the radiobox to switch to potentiostat mode if necessary.
 
 ---
 (8/19/2022)\
