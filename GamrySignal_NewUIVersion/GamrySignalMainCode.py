@@ -225,7 +225,6 @@ class UI(QtWidgets.QMainWindow):
             print("Terminating...")
             print("Total Number of Output Data Points Detected: ", len(dtaqsink.acquired_points))
             pstat.SetCell(GamryCOM.CellOff)
-            time.sleep(1)
             pstat.Close()
             gc.collect()
             self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(50,200,50);border: 1.5px solid gray;border-radius: 8px;}")
@@ -244,11 +243,12 @@ class UI(QtWidgets.QMainWindow):
         model = self.objNameEdit.text()
         subdir = outputPath+"\Test"+testnum +"-Object"+cellID+"-"+model+".csv"
         rawDataList = []
-        titleList = ["Time(s)","Measur. V(V)","Uncompens. V","Measur. I(A)","Signal Out","Aux Input","IE Range","Overload Info","Stop","Temp"]
-        #titleList = ["Time(s)","Measur. V(V)","Uncompens. V","Measur. I(A)","Signal Out"]
+        #titleList = ["Time(s)","Measur. V(V)","Uncompens. V","Measur. I(A)","Measur. Input Signal","Aux Input","IE Range","Overload Info","Stop","Temp"]
+        titleList = ["Time(s)","Measur. V(V)","Measur. I(A)","Measur. Input Signal"]
         with open(subdir, 'w') as file_handler:
             for item in dtaqsink.acquired_points:
-                rawDataList.append(','.join([str(j) for j in item]))
+                item = [item[i] for i in (0,1,3,4)] #delete or comment out this line to save all data
+                rawDataList.append(','.join([str(j) for j in item])) 
             writer = csv.writer(file_handler)
             writer.writerow(titleList)
             for item in rawDataList:
