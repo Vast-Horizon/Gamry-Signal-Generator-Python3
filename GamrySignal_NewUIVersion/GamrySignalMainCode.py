@@ -1,3 +1,6 @@
+__author__ = "Fiavi(Zhaoen) Yang"
+#Github: https://github.com/Vast-Horizon/Gamry-Signal-Generator-Python3
+
 from PyQt6 import QtWidgets, uic,QtCore, QtGui
 from tkinter import filedialog
 from pyqtgraph import PlotWidget
@@ -12,7 +15,7 @@ import csv
 
 active = False #Flag
 global mode
-mode = "Gstat" 
+mode = "Gstat" #default mode is galvanostat
 ############################Gamry Classes#################################
 class GamryCOMError(Exception):
     pass
@@ -160,7 +163,7 @@ class UI(QtWidgets.QMainWindow):
     def test(self):
         #Prepare parameters
         amp = float(self.ampInput.text())
-        global numOfPoints
+        global numOfPoints, PointsList
         try:
             f = open(fpath)
             PointsList = f.readlines()
@@ -207,7 +210,7 @@ class UI(QtWidgets.QMainWindow):
             counter+=1
             prograssList.append(counter)
             if self.progressBar.value() >= 30:
-                self.progressBar.setValue(27)
+                self.progressBar.setValue(29)
             else:
                 self.progressBar.setValue(counter)
  
@@ -237,30 +240,35 @@ class UI(QtWidgets.QMainWindow):
         model = self.objNameEdit.text()
         subdir = outputPath+"\Test"+testnum +"-Object"+cellID+"-"+model+".csv"
         rawDataList = []
-        #titleList = ["Time(s)","Measur. V(V)","Uncompens. V","Measur. I(A)","Measur. Input Signal","Aux Input","IE Range","Overload Info","Stop","Temp"]
-        titleList = ["Time(s)","Measur. V(V)","Measur. I(A)","Measur. Input Signal"]
+        #titleList = ["Input","Time(s)","Measur. V(V)","Uncompens. V","Measur. I(A)","Vsig","Aux Input","IE Range","Overload Info","Stop","Temp"]
+        titleList = ["Input","Time(s)","Measur. V(V)","Measur. I(A)"]
+        c=0
         with open(subdir, 'w') as file_handler:
-            for item in dtaqsink.acquired_points:
-                item = [item[i] for i in (0,1,3,4)] #delete or comment out this line to save all data
-                rawDataList.append(','.join([str(j) for j in item])) 
             writer = csv.writer(file_handler)
             writer.writerow(titleList)
-            for item in rawDataList:
-                file_handler.write("{}\n".format(item))
+            #convert a list of tuples to a list of strings, note: 
+                #dtaqsink.acquired_points is a list of tuples
+                #item is a list of string lists
+                #rawDataList is a list of strings, and stritem is string
+            for item in dtaqsink.acquired_points:
+                item = [item[i] for i in (0,1,3)] #delete or comment out this line to save all data
+                item.insert(0,PointsList[c])#insert input signal list to the first column
+                c+=1
+                rawDataList.append(','.join([str(j) for j in item])) 
+            for stritem in rawDataList:
+                 file_handler.write("{}\n".format(stritem))#write the string
         print("Data file ",subdir," is saved")
         print("OFF")
     
-    #Process the acquired_points list to plot
+    #Process acquired_points list to plot
     def draw(self):
         timeList = [x[0] for x in dtaqsink.acquired_points]
         voltsList = [x[1] for x in dtaqsink.acquired_points]
-        currentList = [x[3] for x in dtaqsink.acquired_points]  
-        VsigList = [x[4] for x in dtaqsink.acquired_points]         
+        currentList = [x[3] for x in dtaqsink.acquired_points]         
         timeList = [float(i) for i in timeList]
         voltsList = [float(j) for j in voltsList]
         currentList = [float(j) for j in currentList]
-        VsigList = [float(j) for j in VsigList]
-        self.graphicsView.plot(timeList,VsigList,pen=(10,10,200))
+        self.graphicsView.plot(timeList,PointsList,pen=(10,10,200))
         self.graphicsView_2.plot(timeList,currentList,pen=(10,10,200))
         self.graphicsView_3.plot(timeList,voltsList,pen=(10,10,200))
     

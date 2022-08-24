@@ -33,7 +33,7 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:rgb(250, 255, 250)</string>
+   <string notr="true">background-color:rgb(255, 255, 255)</string>
   </property>
   <property name="documentMode">
    <bool>false</bool>
@@ -263,9 +263,9 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>30</y>
+      <y>40</y>
       <width>391</width>
-      <height>141</height>
+      <height>131</height>
      </rect>
     </property>
     <property name="text">
@@ -361,7 +361,7 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLabel {background-color: rgb(50, 200, 50);border: 1.5px solid gray;border-radius: 8px;}</string>
+     <string notr="true">QLabel {background-color: rgb(50, 200, 50);border: 1.5px inset gray;border-radius: 8px;}</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::Box</enum>
@@ -391,7 +391,17 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
      <enum>Qt::WheelFocus</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">QDateEdit {border: 1px solid gray;border-radius: 8px;}</string>
+     <string notr="true">QDateEdit {border: 1px solid gray;border-radius: 8px;}
+/*QDateEdit::down-arrow{border: 1px solid gray; border-radius: 4px; margin: 1.5px;
+height:9}*/
+QDateEdit::drop-down {
+subcontrol-origin: padding;
+subcontrol-position: center right;
+width: 20px;
+border-left-width: 1px;
+border-left-color: darkgray;
+border-left-style: double;
+}</string>
     </property>
     <property name="frame">
      <bool>true</bool>
@@ -452,7 +462,11 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
      <enum>Qt::WheelFocus</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">QSpinBox {border: 1px solid gray;border-radius: 8px;}</string>
+     <string notr="true">QSpinBox {border: 1px solid gray;border-radius: 8px;}
+QSpinBox::down-button{border: 1px solid  gray; border-radius: 4px; margin: 1.5px;
+height:9}
+QSpinBox::up-button{border: 1px solid gray; border-radius: 4px; margin: 1.5px;
+height:9}</string>
     </property>
     <property name="wrapping">
      <bool>false</bool>
@@ -699,9 +713,9 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
    <widget class="QLabel" name="OutSigLabel">
     <property name="geometry">
      <rect>
-      <x>840</x>
+      <x>820</x>
       <y>10</y>
-      <width>191</width>
+      <width>251</width>
       <height>20</height>
      </rect>
     </property>
@@ -718,7 +732,7 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
      <string notr="true">QLabel{font-weight: bold}</string>
     </property>
     <property name="text">
-     <string>Output Signal vs Time [s]</string>
+     <string>Input Signal vs Time [s]</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -813,20 +827,37 @@ background-color:rgb(50, 200, 50);
    <widget class="QRadioButton" name="radioButton">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>60</x>
       <y>380</y>
-      <width>171</width>
-      <height>20</height>
+      <width>431</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Calibri</family>
-      <pointsize>10</pointsize>
+      <family>Calibri Light</family>
+      <pointsize>11</pointsize>
+      <underline>false</underline>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton::indicator {
+    width:  12px;
+    height:  12px;
+    border-radius:  4px;
+}
+QRadioButton::indicator:checked {
+    background-color: rgb(50, 200, 50);
+    border: 2px solid grey;
+}
+QRadioButton::indicator:unchecked {
+    background-color:       white;
+    border:      2px solid grey;
+}
+</string>
+    </property>
     <property name="text">
-     <string>  Galvanostat Mode</string>
+     <string>  Galvanostat Mode  - Uncheck to switch to Potentiostat</string>
     </property>
     <property name="checked">
      <bool>true</bool>
