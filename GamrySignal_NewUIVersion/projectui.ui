@@ -47,7 +47,7 @@
      <rect>
       <x>40</x>
       <y>430</y>
-      <width>201</width>
+      <width>431</width>
       <height>41</height>
      </rect>
     </property>
@@ -71,48 +71,7 @@ QPushButton:hover{background-color:rgb(191, 255, 128);}
 QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
     </property>
     <property name="text">
-     <string>Select Signal Profile</string>
-    </property>
-    <property name="autoDefault">
-     <bool>false</bool>
-    </property>
-    <property name="default">
-     <bool>false</bool>
-    </property>
-    <property name="flat">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="DataFileButton_2">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>430</y>
-      <width>211</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-      <pointsize>12</pointsize>
-      <weight>50</weight>
-      <italic>false</italic>
-      <bold>false</bold>
-      <strikeout>false</strikeout>
-     </font>
-    </property>
-    <property name="statusTip">
-     <string/>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton{background-color:rgb(220, 255, 210); border:none;
-padding-top:2px; color:rgb(0,0,0); border-radius: 10px; }
-QPushButton:hover{background-color:rgb(191, 255, 128);}
-QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
-    </property>
-    <property name="text">
-     <string>Load Default Profile</string>
+     <string>Select Input Signal File</string>
     </property>
     <property name="autoDefault">
      <bool>false</bool>
@@ -171,9 +130,9 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
    <widget class="QLabel" name="signalPathlabel">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>0</x>
       <y>490</y>
-      <width>431</width>
+      <width>491</width>
       <height>31</height>
      </rect>
     </property>
@@ -392,13 +351,14 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QDateEdit {border: 1px solid gray;border-radius: 8px;}
-/*QDateEdit::down-arrow{border: 1px solid gray; border-radius: 4px; margin: 1.5px;
-height:9}*/
+QDateEdit::down-arrow{border: 0px solid gray; border-radius: 3px; margin: 1px;
+height:10;  background-color:rgb(220, 255, 210)}
+
 QDateEdit::drop-down {
 subcontrol-origin: padding;
 subcontrol-position: center right;
 width: 20px;
-border-left-width: 1px;
+border-left-width: 0px;
 border-left-color: darkgray;
 border-left-style: double;
 }</string>
@@ -463,10 +423,10 @@ border-left-style: double;
     </property>
     <property name="styleSheet">
      <string notr="true">QSpinBox {border: 1px solid gray;border-radius: 8px;}
-QSpinBox::down-button{border: 1px solid  gray; border-radius: 4px; margin: 1.5px;
-height:9}
-QSpinBox::up-button{border: 1px solid gray; border-radius: 4px; margin: 1.5px;
-height:9}</string>
+QSpinBox::down-button{border: 0px solid  gray; border-radius: 3px; margin: 1.5px;
+height:9; background-color:rgb(220, 255, 210);}
+QSpinBox::up-button{border: 0px solid gray; border-radius: 3px; margin: 1.5px;
+height:9; background-color:rgb(220, 255, 210)}</string>
     </property>
     <property name="wrapping">
      <bool>false</bool>
@@ -848,11 +808,11 @@ background-color:rgb(50, 200, 50);
 }
 QRadioButton::indicator:checked {
     background-color: rgb(50, 200, 50);
-    border: 2px solid grey;
+    border: 2px inset grey;
 }
 QRadioButton::indicator:unchecked {
     background-color:       white;
-    border:      2px solid grey;
+    border:      2px inset grey;
 }
 </string>
     </property>

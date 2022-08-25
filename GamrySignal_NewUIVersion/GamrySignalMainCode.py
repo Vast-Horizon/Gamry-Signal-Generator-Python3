@@ -16,6 +16,8 @@ import csv
 active = False #Flag
 global mode
 mode = "Gstat" #default mode is galvanostat
+fpath = 'InputProfile_Default.csv' #default name of the signal data file
+
 ############################Gamry Classes#################################
 class GamryCOMError(Exception):
     pass
@@ -62,27 +64,25 @@ class UI(QtWidgets.QMainWindow):
         currentMonth = datetime.now().month
         currentYear = datetime.now().year
         self.dateEdit.setDateTime(QtCore.QDateTime(QtCore.QDate(currentYear, currentMonth, currentDay), QtCore.QTime(0, 0, 0)))
-        self.progressBar.setValue(0)
+        self.progressBar.setValue(0)   
+        if os.path.isfile(fpath) == False:
+            print("The default signal file"+fpath+"does not appear to exist in current directory. Please select an input file.") 
+            self.signalPathlabel.setText("Please select an input signal data file")
+        else:
+            self.signalPathlabel.setText(fpath)
         #Connect buttons with functions
         self.DataFileButton_1.clicked.connect(self.openF)
-        self.DataFileButton_2.clicked.connect(self.loadDefault)
         self.pushButton.clicked.connect(self.draw)
         self.ClearPushButton.clicked.connect(self.clear)
         self.TestButton.clicked.connect(self.modeSwitcher)
         #Show UI
         self.show()
-    #Select Signal Profile
+    
+    #Select an Input Signal file
     def openF(self):
         global fpath
         fpath = filedialog.askopenfilename()
         self.signalPathlabel.setText(fpath)
-
-    #Load Default Signal Profile
-    def loadDefault(self):
-        global fpath
-        fpath = 'InputProfileGalv.csv'
-        self.signalPathlabel.setText(fpath)
-        print(fpath)
 
     #Creat Directory to save
     def folderDir(self):
@@ -101,8 +101,7 @@ class UI(QtWidgets.QMainWindow):
             os.makedirs(outputPath)
         else:
             pass
-            
-
+  
     #Switch between Gstat and Pstat mode
     def modeSwitcher(self):        
         if self.radioButton.isChecked():
@@ -132,8 +131,7 @@ class UI(QtWidgets.QMainWindow):
         dtaqsink = GamryDtaqEvents(dtaqcpiv)
         connection = client.GetEvents(dtaqcpiv, dtaqsink)
         print("\n========================================================================")
-        print(devices.EnumSections()[0], " Initialization Completed In Potentiostat Mode")
-        self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(255,224,102);border: 1.5px solid gray;border-radius: 8px;}")  
+        print(devices.EnumSections()[0], " Initialization Completed In Potentiostat Mode")  
         self.test()
 
     #Set up connection with the Gamry instrument in Galvanostat mode
@@ -155,9 +153,14 @@ class UI(QtWidgets.QMainWindow):
         dtaqsink = GamryDtaqEvents(dtaqciiv)
         connection = client.GetEvents(dtaqciiv, dtaqsink)
         print("\n========================================================================")
-        print(devices.EnumSections()[0], " Initialization Completed In Galvanostat Mode")
-        self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(255,224,102);border: 1.5px solid gray;border-radius: 8px;}")  
+        print(devices.EnumSections()[0], " Initialization Completed In Galvanostat Mode")  
         self.test()
+    
+    #To close
+    def toclose(self):
+            pstat.SetCell(GamryCOM.CellOff)
+            pstat.Close()
+            gc.collect()
 
     #To test    
     def test(self):
@@ -166,11 +169,16 @@ class UI(QtWidgets.QMainWindow):
         global numOfPoints, PointsList
         try:
             f = open(fpath)
+            self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(255,224,102);border: 1.5px inset gray;border-radius: 8px;}")
             PointsList = f.readlines()
             numOfPoints = len(PointsList)
             PointsList = [float(i)*amp for i in PointsList]
         except (NameError, IOError):
-            print("Error - File does not appear to exist.") 
+            print("Error - No Input Signal file Is Selected or the file does not appear to exist.") 
+            self.signalPathlabel.setText("Error - No Signal Profile Is Selected")
+            self.toclose()
+            return False
+
         Cycles = int(self.spinBox.text())
         temprate = float(numOfPoints/(int(self.FrequencyInput.text())*1000)/numOfPoints)
         temprate = round(temprate,8)
@@ -199,7 +207,7 @@ class UI(QtWidgets.QMainWindow):
                 dtaqciiv.Run(True)
             elif mode == "Pstat":
                 dtaqcpiv.Run(True)
-            print("Running\t","Should be ready in 30 second...")
+            print("Running...")
         except Exception as e:
             raise gamry_error_decoder(e)
         prograssList = []
@@ -221,10 +229,7 @@ class UI(QtWidgets.QMainWindow):
             self.draw()
             print("Terminating...")
             print("Total Number of Output Data Points Detected: ", len(dtaqsink.acquired_points))
-            pstat.SetCell(GamryCOM.CellOff)
-            pstat.Close()
-            gc.collect()
-            self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(50,200,50);border: 1.5px solid gray;border-radius: 8px;}")
+            self.toclose()  
             try:
                 f.close()
                 break
@@ -258,7 +263,7 @@ class UI(QtWidgets.QMainWindow):
             for stritem in rawDataList:
                  file_handler.write("{}\n".format(stritem))#write the string
         print("Data file ",subdir," is saved")
-        print("OFF")
+        print("END")
     
     #Process acquired_points list to plot
     def draw(self):
@@ -271,6 +276,7 @@ class UI(QtWidgets.QMainWindow):
         self.graphicsView.plot(timeList,PointsList,pen=(10,10,200))
         self.graphicsView_2.plot(timeList,currentList,pen=(10,10,200))
         self.graphicsView_3.plot(timeList,voltsList,pen=(10,10,200))
+        self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(50,200,50);border: 1.5px inset gray;border-radius: 8px;}")
     
     #Clear plots
     def clear(self):
