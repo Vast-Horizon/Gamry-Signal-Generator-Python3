@@ -9,6 +9,7 @@ import comtypes.client as client
 import gc
 import time
 from datetime import datetime
+import numpy as np
 import os
 import sys
 import csv
@@ -16,7 +17,7 @@ import csv
 active = False #Flag
 global mode
 mode = "Gstat" #default mode is galvanostat
-fpath = 'InputProfile_Default.csv' #default name of the signal data file
+fpath = 'RevProfile_Copy.csv' #default name of the signal data file
 
 ############################Gamry Classes#################################
 class GamryCOMError(Exception):
@@ -65,6 +66,7 @@ class UI(QtWidgets.QMainWindow):
         currentYear = datetime.now().year
         self.dateEdit.setDateTime(QtCore.QDateTime(QtCore.QDate(currentYear, currentMonth, currentDay), QtCore.QTime(0, 0, 0)))
         self.progressBar.setValue(0)   
+        #Check if the default signal file exist
         if os.path.isfile(fpath) == False:
             print("The default signal file"+fpath+"does not appear to exist in current directory. Please select an input file.") 
             self.signalPathlabel.setText("Please select an input signal data file")
@@ -92,7 +94,8 @@ class UI(QtWidgets.QMainWindow):
         dday = str(self.dateEdit.date().day())
         mmonth = str(self.dateEdit.date().month())
         yyyyear = str(self.dateEdit.date().year())
-        subdir = "Test"+testnum+"-"+temperature + "-"+mmonth+"-"+dday+"-"+yyyyear
+        amp = str(self.ampInput.text())
+        subdir = "Test"+testnum+"-"+temperature + "-Amp"+amp+"-"+mmonth+"_"+dday+"_"+yyyyear
         cdir = os.getcwd() #Get the current directory
         parent_dir = os.path.join(cdir,objname)
         global outputPath
@@ -166,24 +169,31 @@ class UI(QtWidgets.QMainWindow):
     def test(self):
         #Prepare parameters
         amp = float(self.ampInput.text())
-        global numOfPoints, PointsList
+        global numOfPoints, PointsList,SampleRate
         try:
             f = open(fpath)
             self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(255,224,102);border: 1.5px inset gray;border-radius: 8px;}")
             PointsList = f.readlines()
             numOfPoints = len(PointsList)
             PointsList = [float(i)*amp for i in PointsList]
-        except (NameError, IOError):
+        except (NameError, IOError):#If error, stop test()
             print("Error - No Input Signal file Is Selected or the file does not appear to exist.") 
             self.signalPathlabel.setText("Error - No Signal Profile Is Selected")
             self.toclose()
             return False
-
+        global timeList
         Cycles = int(self.spinBox.text())
-        temprate = float(numOfPoints/(int(self.FrequencyInput.text())*1000)/numOfPoints)
+        temprate = float(1/((int(self.FrequencyInput.text())*1000)))
         temprate = round(temprate,8)
         SampleRate = temprate
-        Sig=client.CreateObject('GamryCOM.GamrySignalArray')
+        timeList = []
+        timeVal = 0
+        for i in range(numOfPoints):
+            timeList.append(timeVal) 
+            timeList[i] = timeVal
+            timeVal+=SampleRate
+
+        Sig=client.CreateObject('GamryCOM.GamrySignalArray')#Create Signal Object
         if mode == "Gstat":
             Sig.Init(pstat, Cycles, SampleRate, numOfPoints, PointsList, GamryCOM.GstatMode)
         elif mode == "Pstat":
@@ -192,10 +202,10 @@ class UI(QtWidgets.QMainWindow):
 
         #Print out information
         print("###################################################")
-        print("Number of Data Points of each period: ", numOfPoints)
+        print("Number of Data Points in each cycle: ", numOfPoints)
         print("Number of Cycles: ", Cycles)
         print("Time gap between each output data point in second: ", SampleRate)
-        runTime = SampleRate*Cycles*numOfPoints
+        runTime = SampleRate*Cycles*(numOfPoints-1)
         print("Estimated total signal length in second: ", runTime)
         print("Frequcency of data point outputing in Hz: ", 1/SampleRate) 
         print("###################################################")
@@ -224,7 +234,7 @@ class UI(QtWidgets.QMainWindow):
  
         #Turn off
         while active == False: 
-            self.progressBar.setValue(30)  
+            self.progressBar.setValue(30) 
             self.clear()
             self.draw()
             print("Terminating...")
@@ -245,34 +255,36 @@ class UI(QtWidgets.QMainWindow):
         model = self.objNameEdit.text()
         subdir = outputPath+"\Test"+testnum +"-Object"+cellID+"-"+model+".csv"
         rawDataList = []
-        #titleList = ["Input","Time(s)","Measur. V(V)","Uncompens. V","Measur. I(A)","Vsig","Aux Input","IE Range","Overload Info","Stop","Temp"]
-        titleList = ["Input","Time(s)","Measur. V(V)","Measur. I(A)"]
+        #q=o=y=u=['','','','','']
+        #r = zip(q,o,y,u,titleList)
         c=0
         with open(subdir, 'w') as file_handler:
-            writer = csv.writer(file_handler)
-            writer.writerow(titleList)
+            #writer = csv.writer(file_handler)
+            # for row in r:
+            #     writer.writerow(row)
             #convert a list of tuples to a list of strings, note: 
                 #dtaqsink.acquired_points is a list of tuples
                 #item is a list of string lists
                 #rawDataList is a list of strings, and stritem is string
             for item in dtaqsink.acquired_points:
-                item = [item[i] for i in (0,1,3)] #delete or comment out this line to save all data
-                item.insert(0,PointsList[c])#insert input signal list to the first column
+                item = [item[i] for i in (1,3)] #1 is Voltage, 3 is Current. Delete or comment out this line to save all data. 
+                item.insert(0,timeList[c])#insert time list to the first column
+                item.insert(1,PointsList[c])#insert input signal list to the second column
                 c+=1
                 rawDataList.append(','.join([str(j) for j in item])) 
             for stritem in rawDataList:
                  file_handler.write("{}\n".format(stritem))#write the string
         print("Data file ",subdir," is saved")
+        titleList = ["Output Columns from 1st to 4th respectively are:","Time[s]","Input Signal","Measur. V[V]","Measur. I[A]"]
+        print(*titleList)
         print("END")
     
     #Process acquired_points list to plot
     def draw(self):
-        timeList = [x[0] for x in dtaqsink.acquired_points]
         voltsList = [x[1] for x in dtaqsink.acquired_points]
         currentList = [x[3] for x in dtaqsink.acquired_points]         
-        timeList = [float(i) for i in timeList]
-        voltsList = [float(j) for j in voltsList]
-        currentList = [float(j) for j in currentList]
+        #voltsList = [float(j) for j in voltsList]
+        #currentList = [float(j) for j in currentList]
         self.graphicsView.plot(timeList,PointsList,pen=(10,10,200))
         self.graphicsView_2.plot(timeList,currentList,pen=(10,10,200))
         self.graphicsView_3.plot(timeList,voltsList,pen=(10,10,200))
