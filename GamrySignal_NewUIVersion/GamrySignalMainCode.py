@@ -1,7 +1,8 @@
 __author__ = "Fiavi(Zhaoen) Yang"
 #Github: https://github.com/Vast-Horizon/Gamry-Signal-Generator-Python3
 
-from PyQt6 import QtWidgets, uic,QtCore, QtGui
+from PyQt6 import QtWidgets, uic,QtCore
+from PyQt6.QtGui import QDoubleValidator
 from tkinter import filedialog
 from pyqtgraph import PlotWidget
 import comtypes
@@ -17,7 +18,7 @@ import csv
 active = False #Flag
 global mode
 mode = "Gstat" #default mode is galvanostat
-fpath = 'RevProfile_Copy.csv' #default name of the signal data file
+fpath = 'RevProfile_Copy.csv' #default path of the signal data file
 
 ############################Gamry Classes#################################
 class GamryCOMError(Exception):
@@ -29,7 +30,7 @@ def gamry_error_decoder(e):
         if hresult & 0x20000000:
             return GamryCOMError('0x{0:08x}: {1}'.format(2**32+e.args[0], e.args[1]))
     return e
-c = 0
+
 class GamryDtaqEvents(object):
     def __init__(self, dtaq):
         self.dtaq = dtaq
@@ -60,6 +61,13 @@ class UI(QtWidgets.QMainWindow):
         self.graphicsView.setBackground('w')
         self.graphicsView_2.setBackground('w')
         self.graphicsView_3.setBackground('w')
+        # FrequencyInput and ampInput only allow float input
+        FreqValidator = QDoubleValidator()
+        ampValidator = QDoubleValidator()
+        FreqValidator.setRange(0,200,2)
+        ampValidator.setRange(0,100,4)
+        self.FrequencyInput.setValidator(FreqValidator)
+        self.ampInput.setValidator(ampValidator)
         #Get current time
         currentDay = datetime.now().day
         currentMonth = datetime.now().month
