@@ -1,7 +1,8 @@
 # Gamry-Signal-Generator-Python3
 ![image](https://user-images.githubusercontent.com/50966363/177796983-56907dad-51e0-4ef4-b0f8-3a599150b8f7.png)
 
-Gamry Signal Generator tells the potentiostat to output a certain signal. RampPulse.py reads from a data file that has 1001 voltages data points(from 0V to 2V, straight back to 0 at the end). By default, RampPulse.py runs three cycles, with a 0.0001 seconds gap between each of the data points. RampPulse.py also saves raw data the potentiostat detected and polts a graph, as the demo1.jpg shows.\
+Gamry Signal Generator controls the potentiostat to output a certain signal.\
+RampPulse.py reads from a data file that has 1001 voltages data points(from 0V to 2V, straight back to 0 at the end). By default, RampPulse.py runs three cycles, with a 0.0001 seconds gap between each of the data points. RampPulse.py also saves raw data the potentiostat detected and polts a graph, as the demo1.jpg shows.\
 sineWave.py is a separated, additional example that can generate a continuous sine wave.
 
 Hardware Connection:\
@@ -12,11 +13,12 @@ The technologies used in this project:\
 Gamry Echem Toolkit, Python 3, comtypes, Qt Designer and PyQt6\
 The potentiostat being used during development was INTERFACE 5000E.
 
-use pip in your terminal to install following libraries:\
+Use pip in your terminal to install following libraries:\
 pip install comtypes\
 pip install PyQt6\
 pip install pyqtgraph\
-pip install numpy
+pip install numpy\
+pip install matplotlib
 
 Gamry Echem Toolkit Info:
 https://www.gamry.com/support-2/software/echem-toolkit-basic-dc-and-ac/
