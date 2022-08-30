@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1356</width>
-    <height>776</height>
+    <width>1355</width>
+    <height>783</height>
    </rect>
   </property>
   <property name="font">
@@ -24,10 +24,10 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>ICON.png</normaloff>ICON.png</iconset>
+    <normaloff>img/ICON.ico</normaloff>img/ICON.ico</iconset>
   </property>
   <property name="windowOpacity">
-   <double>0.950000000000000</double>
+   <double>0.960000000000000</double>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -46,8 +46,8 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>430</y>
-      <width>431</width>
+      <y>440</y>
+      <width>421</width>
       <height>41</height>
      </rect>
     </property>
@@ -105,7 +105,13 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
      <string notr="true">QLineEdit {border: 1px solid gray;border-radius: 10px;}</string>
     </property>
     <property name="text">
-     <string>STATOR</string>
+     <string>Model</string>
+    </property>
+    <property name="maxLength">
+     <number>10</number>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="objNamelabel">
@@ -130,9 +136,9 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
    <widget class="QLabel" name="signalPathlabel">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>10</x>
       <y>490</y>
-      <width>491</width>
+      <width>461</width>
       <height>31</height>
      </rect>
     </property>
@@ -151,30 +157,17 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
      <enum>QFrame::Plain</enum>
     </property>
     <property name="text">
-     <string>Signal Profile</string>
+     <string>[Fiavi Yang]</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="PlotWidget" name="graphicsView">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>30</y>
-      <width>781</width>
-      <height>201</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>660</y>
+      <y>670</y>
       <width>201</width>
       <height>31</height>
      </rect>
@@ -198,8 +191,8 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>660</y>
-      <width>211</width>
+      <y>670</y>
+      <width>201</width>
       <height>31</height>
      </rect>
     </property>
@@ -215,13 +208,13 @@ QPushButton:hover{background-color:rgb(191, 255, 128);}
 QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
     </property>
     <property name="text">
-     <string>Clear</string>
+     <string>Clear Plots</string>
     </property>
    </widget>
    <widget class="QLabel" name="logo">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>50</x>
       <y>40</y>
       <width>391</width>
       <height>131</height>
@@ -231,7 +224,7 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>CMHT-Logo.webp</pixmap>
+     <pixmap>img/CMHT-Logo.webp</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -263,7 +256,7 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
      <string notr="true">QLineEdit {border: 1px solid gray;border-radius: 10px;}</string>
     </property>
     <property name="text">
-     <string/>
+     <string>01</string>
     </property>
    </widget>
    <widget class="QLabel" name="IDlabel">
@@ -289,8 +282,8 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>540</y>
-      <width>431</width>
+      <y>550</y>
+      <width>421</width>
       <height>41</height>
      </rect>
     </property>
@@ -313,8 +306,8 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
    <widget class="QLabel" name="IndicatorLabel">
     <property name="geometry">
      <rect>
-      <x>426</x>
-      <y>550</y>
+      <x>410</x>
+      <y>560</y>
       <width>20</width>
       <height>21</height>
      </rect>
@@ -335,22 +328,23 @@ QPushButton:pressed{background-color:rgb(115, 230, 0);}</string>
    <widget class="QDateEdit" name="dateEdit">
     <property name="geometry">
      <rect>
-      <x>339</x>
-      <y>320</y>
-      <width>131</width>
+      <x>10</x>
+      <y>0</y>
+      <width>91</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>9</pointsize>
+      <family>Calibri Light</family>
+      <pointsize>10</pointsize>
      </font>
     </property>
     <property name="focusPolicy">
      <enum>Qt::WheelFocus</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">QDateEdit {border: 1px solid gray;border-radius: 8px;}
+     <string notr="true">QDateEdit {border: 0px solid gray;border-radius: 8px;}
 QDateEdit::down-arrow{border: 0px solid gray; border-radius: 3px; margin: 1px;
 height:10;  background-color:rgb(220, 255, 210)}
 
@@ -368,7 +362,7 @@ border-left-style: double;
     </property>
     <property name="dateTime">
      <datetime>
-      <hour>5</hour>
+      <hour>15</hour>
       <minute>0</minute>
       <second>0</second>
       <year>2022</year>
@@ -401,7 +395,13 @@ border-left-style: double;
      <string notr="true">QLineEdit {border: 1px solid gray;border-radius: 10px;}</string>
     </property>
     <property name="text">
-     <string>80</string>
+     <string>40</string>
+    </property>
+    <property name="maxLength">
+     <number>8</number>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QSpinBox" name="spinBox">
@@ -485,15 +485,15 @@ height:9; background-color:rgb(220, 255, 210)}</string>
      <string>Cycles:</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="TempEdit">
+   <widget class="QLineEdit" name="conditionEdit">
     <property name="enabled">
      <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>240</y>
-      <width>131</width>
+      <y>320</y>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
@@ -511,7 +511,13 @@ height:9; background-color:rgb(220, 255, 210)}</string>
      <string notr="true">QLineEdit {border: 1px solid gray;border-radius: 10px;}</string>
     </property>
     <property name="text">
-     <string>Healthy </string>
+     <string>Standard</string>
+    </property>
+    <property name="maxLength">
+     <number>20</number>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="TestNumEdit">
@@ -540,7 +546,7 @@ height:9; background-color:rgb(220, 255, 210)}</string>
      <string notr="true">QLineEdit {border: 1px solid gray;border-radius: 10px;}</string>
     </property>
     <property name="text">
-     <string>1</string>
+     <string>01</string>
     </property>
    </widget>
    <widget class="QLabel" name="TestNumlabel">
@@ -562,31 +568,12 @@ height:9; background-color:rgb(220, 255, 210)}</string>
      <string>Test #:</string>
     </property>
    </widget>
-   <widget class="QLabel" name="Temperature">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>200</y>
-      <width>111</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Condition:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="DateLabel">
+   <widget class="QLabel" name="ConditionLabel">
     <property name="geometry">
      <rect>
       <x>340</x>
       <y>290</y>
-      <width>91</width>
+      <width>111</width>
       <height>21</height>
      </rect>
     </property>
@@ -597,105 +584,7 @@ height:9; background-color:rgb(220, 255, 210)}</string>
      </font>
     </property>
     <property name="text">
-     <string>M/d/yyyy:</string>
-    </property>
-   </widget>
-   <widget class="PlotWidget" name="graphicsView_2">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>260</y>
-      <width>781</width>
-      <height>211</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="PlotWidget" name="graphicsView_3">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>500</y>
-      <width>781</width>
-      <height>221</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="MeasuredVLabel">
-    <property name="geometry">
-     <rect>
-      <x>830</x>
-      <y>480</y>
-      <width>241</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLabel{font-weight: bold}</string>
-    </property>
-    <property name="text">
-     <string>Measured Voltage [V] vs Time [s]</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="MeasuredcurLabel">
-    <property name="geometry">
-     <rect>
-      <x>810</x>
-      <y>240</y>
-      <width>251</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLabel{font-weight: bold}</string>
-    </property>
-    <property name="text">
-     <string>Measured Current [A] vs Time [s]</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="OutSigLabel">
-    <property name="geometry">
-     <rect>
-      <x>820</x>
-      <y>10</y>
-      <width>251</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLabel{font-weight: bold}</string>
-    </property>
-    <property name="text">
-     <string>Input Signal vs Time [s]</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <string>Condition:</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="ampInput">
@@ -717,6 +606,9 @@ height:9; background-color:rgb(220, 255, 210)}</string>
     </property>
     <property name="text">
      <string>1</string>
+    </property>
+    <property name="maxLength">
+     <number>8</number>
     </property>
    </widget>
    <widget class="QLabel" name="ampLabel">
@@ -742,8 +634,8 @@ height:9; background-color:rgb(220, 255, 210)}</string>
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>600</y>
-      <width>431</width>
+      <y>610</y>
+      <width>421</width>
       <height>21</height>
      </rect>
     </property>
@@ -761,11 +653,11 @@ height:9; background-color:rgb(220, 255, 210)}</string>
     <property name="styleSheet">
      <string notr="true">QProgressBar{
 background-color:rgb(238, 255, 230); 
-border: 1.5px solid gray;
+border: 1.5px inset gray;
 border-radius: 5px; 
 color:rgb(255, 153, 153);
 text-align:center;
-font-weight: bold
+font-weight: bold;
 }
 QProgressBar::chunk {
 margin: 2px;
@@ -787,9 +679,9 @@ background-color:rgb(50, 200, 50);
    <widget class="QRadioButton" name="radioButton">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>180</x>
       <y>380</y>
-      <width>431</width>
+      <width>171</width>
       <height>31</height>
      </rect>
     </property>
@@ -817,11 +709,156 @@ QRadioButton::indicator:unchecked {
 </string>
     </property>
     <property name="text">
-     <string>  Galvanostat Mode  - Uncheck to switch to Potentiostat</string>
+     <string> Galvanostat Mode</string>
     </property>
     <property name="checked">
      <bool>true</bool>
     </property>
+   </widget>
+   <widget class="QLineEdit" name="TempEdit">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>240</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <kerning>true</kerning>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {border: 1px solid gray;border-radius: 10px;}</string>
+    </property>
+    <property name="text">
+     <string>23C</string>
+    </property>
+    <property name="maxLength">
+     <number>20</number>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="TempLabel">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>210</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Temperature:</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>10</y>
+      <width>851</width>
+      <height>721</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="OutSigLabel">
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel{font-weight: bold}</string>
+       </property>
+       <property name="text">
+        <string>Input Signal vs Time [s]</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="PlotWidget" name="graphicsView">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="MeasuredcurLabel">
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel{font-weight: bold}</string>
+       </property>
+       <property name="text">
+        <string>Measured Current [A] vs Time [s]</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="PlotWidget" name="graphicsView_2"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="MeasuredVLabel">
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel{font-weight: bold}</string>
+       </property>
+       <property name="text">
+        <string>Measured Voltage [V] vs Time [s]</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="PlotWidget" name="graphicsView_3"/>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -829,7 +866,7 @@ QRadioButton::indicator:unchecked {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1356</width>
+     <width>1355</width>
      <height>26</height>
     </rect>
    </property>

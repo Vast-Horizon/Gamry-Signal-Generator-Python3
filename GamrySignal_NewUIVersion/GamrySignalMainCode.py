@@ -97,13 +97,9 @@ class UI(QtWidgets.QMainWindow):
     #Creat Directory to save
     def folderDir(self):
         objname = self.objNameEdit.text()
-        temperature = self.TempEdit.text()
-        testnum = self.TestNumEdit.text()
-        dday = str(self.dateEdit.date().day())
-        mmonth = str(self.dateEdit.date().month())
-        yyyyear = str(self.dateEdit.date().year())
-        amp = str(self.ampInput.text())
-        subdir = "Test"+testnum+"-"+temperature + "-Amp"+amp+"-"+mmonth+"_"+dday+"_"+yyyyear
+        condition = self.conditionEdit.text()
+        Temp = self.TempEdit.text()
+        subdir = "Temp"+Temp+" "+condition
         cdir = os.getcwd() #Get the current directory
         parent_dir = os.path.join(cdir,objname)
         global outputPath
@@ -132,7 +128,10 @@ class UI(QtWidgets.QMainWindow):
         devices=client.CreateObject('GamryCOM.GamryDeviceList')
         #Gamry Instrument object
         pstat=client.CreateObject('GamryCOM.GamryPC6Pstat')
-        pstat.Init(devices.EnumSections()[0]) 
+        try:
+            pstat.Init(devices.EnumSections()[0])
+        except IndexError:
+            raise Exception("\n**ERROR - Unable to initialize. Restart the instrument then try again**\n")
         #Open
         pstat.Open()
         pstat.SetCtrlMode(GamryCOM.PstatMode)#Set it to Potentiostat mode
@@ -154,7 +153,10 @@ class UI(QtWidgets.QMainWindow):
         devices=client.CreateObject('GamryCOM.GamryDeviceList')
         #Gamry Instrument object
         pstat=client.CreateObject('GamryCOM.GamryPC6Pstat')
-        pstat.Init(devices.EnumSections()[0]) 
+        try:
+            pstat.Init(devices.EnumSections()[0])
+        except IndexError:
+            raise Exception("\n**ERROR - Unable to initialize. Restart the instrument then try again**\n")
         #Open
         pstat.Open()
         pstat.SetCtrlMode(GamryCOM.GstatMode)#Set it to galvanostat mode
@@ -171,7 +173,9 @@ class UI(QtWidgets.QMainWindow):
     def toclose(self):
             pstat.SetCell(GamryCOM.CellOff)
             pstat.Close()
+            self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(50,200,50);border: 1.5px inset gray;border-radius: 8px;}")
             gc.collect()
+            
 
     #To test    
     def test(self):
@@ -227,6 +231,7 @@ class UI(QtWidgets.QMainWindow):
                 dtaqcpiv.Run(True)
             print("Running...")
         except Exception as e:
+            #self.toclose()
             raise gamry_error_decoder(e)
         prograssList = []
         counter = 0
@@ -251,7 +256,6 @@ class UI(QtWidgets.QMainWindow):
             try:
                 f.close()
                 break
-
             except (NameError, IOError):
                 pass
         self.progressBar.setValue(0)
@@ -259,44 +263,47 @@ class UI(QtWidgets.QMainWindow):
         #Save Raw Data to the directory
         self.folderDir()
         testnum = self.TestNumEdit.text()
+        temp = self.TempEdit.text()
         cellID = self.IDEdit.text()
-        model = self.objNameEdit.text()
-        subdir = outputPath+"\Test"+testnum +"-Object"+cellID+"-"+model+".csv"
+        condition = self.conditionEdit.text()
+        dday = str(self.dateEdit.date().day())
+        mmonth = str(self.dateEdit.date().month())
+        yyear = str(self.dateEdit.date().year())
+        yyear = yyear[-2:]
+        datafileout = outputPath+"\Test"+testnum +"ID"+cellID+"Temp"+temp+condition+mmonth+dday+yyear+".csv"
+        #subdir = outputPath+"\S"+cellID +"T"+testnum+posit+"T"+temp+"290822.csv"
         rawDataList = []
-        #q=o=y=u=['','','','','']
-        #r = zip(q,o,y,u,titleList)
+        titleList = ["Time[s]","Sampling Time[s]","Input Signal","Measur. V[V]","Measur. I[A]"]
         c=0
-        with open(subdir, 'w') as file_handler:
+        with open(datafileout, 'w') as file_handler:
             #writer = csv.writer(file_handler)
             # for row in r:
             #     writer.writerow(row)
+            #===========================================================
             #convert a list of tuples to a list of strings, note: 
                 #dtaqsink.acquired_points is a list of tuples
                 #item is a list of string lists
                 #rawDataList is a list of strings, and stritem is string
+            #===========================================================
             for item in dtaqsink.acquired_points:
-                item = [item[i] for i in (1,3)] #1 is Voltage, 3 is Current. Delete or comment out this line to save all data. 
-                item.insert(0,timeList[c])#insert time list to the first column
-                item.insert(1,PointsList[c])#insert input signal list to the second column
+                item = [item[i] for i in (0,1,3)] #1 is Voltage, 3 is Current. Delete or comment out this line to save all data. 
+                item.insert(0,timeList[c])#insert time to the first column
+                item.insert(2,PointsList[c])#insert input signal list to the third column
                 c+=1
                 rawDataList.append(','.join([str(j) for j in item])) 
             for stritem in rawDataList:
                  file_handler.write("{}\n".format(stritem))#write the string
-        print("Data file ",subdir," is saved")
-        titleList = ["Output Columns from 1st to 4th respectively are:","Time[s]","Input Signal","Measur. V[V]","Measur. I[A]"]
-        print(*titleList)
+        print("Data file ",datafileout," is saved")
+        print("Output Columns from 0 to 4th respectively are:\nTime[s]\t Sampling Time[s]\t Input Signal\t Measur. V[V]\t Measur. I[A]")
         print("END")
     
     #Process acquired_points list to plot
     def draw(self):
         voltsList = [x[1] for x in dtaqsink.acquired_points]
         currentList = [x[3] for x in dtaqsink.acquired_points]         
-        #voltsList = [float(j) for j in voltsList]
-        #currentList = [float(j) for j in currentList]
         self.graphicsView.plot(timeList,PointsList,pen=(10,10,200))
         self.graphicsView_2.plot(timeList,currentList,pen=(10,10,200))
         self.graphicsView_3.plot(timeList,voltsList,pen=(10,10,200))
-        self.IndicatorLabel.setStyleSheet("QLabel {background-color: rgb(50,200,50);border: 1.5px inset gray;border-radius: 8px;}")
     
     #Clear plots
     def clear(self):
