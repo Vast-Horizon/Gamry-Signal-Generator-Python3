@@ -29,7 +29,7 @@ Connect your Gamry potentiostat to your computer.\
 Green lead is positive. Red lead is negative. Blue lead is positive sensor. Orange lead is negative sensor.\
 For two terminal object, for example, a typical battery, connect the green and blue leads to its positive terminal, and the red, white, and orange leads to the negative terminal.
 
-Please keep the main program and the UI file under a same directory.
+Please keep the main program, the UI file, and img folder under a same directory.
 
 Signal file should only be a single list of data.
 
@@ -43,7 +43,11 @@ File Name = Test Number + ID + Condition + Temperature + mmddyy + .csv
 Output Columns from 1st to 4th respectively are:\
 Time[s]	 Sampling Time[s]	 Input Signal	 Measur. V[V]	 Measur. I[A]
 
-Use the radio button to switch between galvanostat mode and potentiostat mode.
+Use the radio button to switch between galvanostat mode and potentiostat mode.\
+Click Test button to Run
+
+You can set a default path to a data file here so you don't need to click Select Input Signal File everytime when you lunch the program
+![image](https://user-images.githubusercontent.com/50966363/187491335-70b2b84c-f6e0-47fc-b146-0a12f8d2bf31.png)
 
 Gamry Echem Toolkit Info:
 https://www.gamry.com/support-2/software/echem-toolkit-basic-dc-and-ac/
