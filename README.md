@@ -15,11 +15,7 @@ Gamry Echem Toolkit, Python 3, comtypes, Qt Designer and PyQt6\
 The potentiostat being used during development was INTERFACE 5000E.
 
 Use pip in your terminal to install following packages:\
-pip install comtypes\
-pip install PyQt6\
-pip install pyqtgraph\
-pip install numpy\
-pip install matplotlib
+pip install comtypes PyQt6 pyqtgraph numpy matplotlib
 
 ---
 How to use:
