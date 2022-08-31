@@ -49,8 +49,6 @@ Gamry Echem Toolkit Info:
 https://www.gamry.com/support-2/software/echem-toolkit-basic-dc-and-ac/
 
 ---
-
-![image](https://user-images.githubusercontent.com/50966363/179066874-048def82-3ab9-4b86-bb12-220c99280118.png)
 ![demo1](https://user-images.githubusercontent.com/50966363/177796481-0845cb86-bb3e-44d8-9c39-c82020d270a4.jpg)
 
 
