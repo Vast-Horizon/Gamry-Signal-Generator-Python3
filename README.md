@@ -49,8 +49,11 @@ Gamry Echem Toolkit Info:
 https://www.gamry.com/support-2/software/echem-toolkit-basic-dc-and-ac/
 
 ---
-![demo1](https://user-images.githubusercontent.com/50966363/177796481-0845cb86-bb3e-44d8-9c39-c82020d270a4.jpg)
+New UI Ver.
+![image](https://user-images.githubusercontent.com/50966363/187779302-34cef4b0-0e1f-4be6-964a-b860a8e295da.png)
 
+Old UI Ver.\
+![demo1](https://user-images.githubusercontent.com/50966363/177796481-0845cb86-bb3e-44d8-9c39-c82020d270a4.jpg)
 
 Output Reading, from an external oscilloscope:\
 ![image](https://user-images.githubusercontent.com/50966363/177848081-875f893b-4d66-4358-8d7f-26bdc7fc9ee3.png)
@@ -64,10 +67,6 @@ For each run, the program save 5 columns of data(time + sampling time(element 0)
 Comment out item = [item[i] for i in (0,1,3)] in GamrySignalMainCode.py to save all columns(elements).\
 ![image](https://user-images.githubusercontent.com/50966363/185494321-f042c8d9-eeef-4738-8043-bb86a30c8281.png)\
 Note that GamrySignalMainCode.py is set to galvanostat mode and it reads current signal by default. Simply uncheck the radio button to switch to potentiostat mode if you wish.
-
----
-(8/25/2022)\
-![image](https://user-images.githubusercontent.com/50966363/186770612-df430720-f23c-4029-974a-f62c6ee9f712.png)
 
 ---
 (8/15/2022)\
