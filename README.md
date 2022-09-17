@@ -21,8 +21,8 @@ pip install comtypes PyQt6 pyqtgraph numpy matplotlib
 How to use:
 
 Hardware Connection:\
-Connect your Gamry potentiostat to your computer.\
-Green lead is positive. Red lead is negative. Blue lead is positive sensor. Orange lead is negative sensor.\
+Connect the Gamry potentiostat to your computer via USB.\
+Leads: Green lead is positive. Red lead is negative. Blue lead is positive sensor. Orange lead is negative sensor.\
 For two terminal object, for example, a typical battery, connect the green and blue leads to its positive terminal, and the red, white, and orange leads to the negative terminal.
 
 Please keep the main program, the UI file, and img folder under a same directory.
