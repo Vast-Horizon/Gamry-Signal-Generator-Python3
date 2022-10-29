@@ -29,7 +29,8 @@ Please keep the main program, the UI file, and img folder under a same directory
 
 Signal file should only be a single list of data.
 
-Amp means multiply each points in the signal file to a set number; Amp = 1 means original signal.
+Amp means multiply each points in the signal file to a set number; Amp = 1 means original signal./
+Note that the device limit is 5A. For example, if your signal has a peak of 2.6, and you set the amp to 2, the program will NOT run since 2.6*2>5.
 
 Output directory and file naming:\
 Main Directory  = Program Directory + Model\
